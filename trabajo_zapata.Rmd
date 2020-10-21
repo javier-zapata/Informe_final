@@ -1,0 +1,255 @@
+---
+title: Variaciones Alometricas en *Perumytilus* *purpuratus*, experimentos de mesocosmos
+  (Acidificacion)
+author: "Javier Zapata"
+date: "20-10-2020"
+output:
+  bookdown::pdf_document2:
+    latex_engine: lualatex
+  tufte::tufte_handout:
+    latex_engine: xelatex
+
+---
+
+``````{r setup, include=F}
+knitr::opts_chunk$set(echo = F, message=F, warning=F, error=F)
+library(broom)
+library(tidyverse)
+library(kableExtra)
+library(knitr)
+library(plyr)
+tabla <- read.table("C:/Users/jazap/Desktop/Cambio climatico/Experimentos/Mesocosmos/Analisis preliminares/mesocosmos.txt",header=TRUE,sep="\t", fill = TRUE)
+
+```
+
+# Introduccion
+El antropoceno, hace referencia a la era geológica dominada por el impacto humano en el medio ambiente (Crutzen 2006). Evidenciado por la alteración de los ciclos biogeoquímicos e incremento de gases con efecto invernadero como el dióxido de carbono (CO2), metano (CH4) y óxido nitroso (N2O), principales causantes del cambio climático (Ciais et al., 2014). Se estima que desde el 1750 al año 2011, se han liberado por actividad antropogénica 5.55*e23 (ppm) de CO2 a la atmosfera. Siendo la quema de combustibles fósiles y la manufactura del cemento el 67% del total de CO2, mientras que el cambio en el uso de tierra (deforestación, aforestación y reforestación) contribuye con un 32% del total. 
+El equivalente al 30% de todo el CO2 liberado por la acción humana a la atmosfera es captado por el océano (Ciais et al., 2014; Law et al., 2017). Estimándose el pH promedio actual de la superficie del océano entre valores de 8.15 y 7.75 (Koch et al., 2013; Ciais et al., 2014).  Sin embargo, proyecciones de las emisiones de CO2 al año 2100 indican un aumento del CO2 atmosférico, provocando una caída estimada de 0.2-0.5 unidades en el pH. En este contexto, tanto CO2 ha sido absorbido por el océano que se ha modificado la química del agua, el balance del pH y alterado la concentración de diferentes especies de carbonato marino (Law et al., 2017) (Figura 1). El CO2 liberado a la atmosfera, provoca un incremento del CO2 disuelto (pCO2) en al agua formando CO2 acuoso (CO2aq), generando acido carbónico (H2CO3). El H2CO3 se disocia formando bicarbonato (HCO3–) y ion hidrogeno (H+), el cual reacciona con el ion carbonato (CO32-), disminuyendo su disponibilidad (Law et al., 2017; Hall-Spencer & Harvey 2019), causando disminución en los valores de pH. De la misma manera para el estado de saturación del ion carbonato, disminuyen sus principales polimorfos, calcita (Ωc) y aragonita (Ωa), alterando el estado de saturación del carbonato de calcio (CaCO3) del agua de mar (Schlenger et al., 2020; Hurd et al., 2020). Originándose así el proceso conocido o denominado como acidificación oceánica (OA) (Raven et al., 2005; Guinotte & Fabry, 2008).             
+
+
+![](C:/Users/jazap/Documents/R/resumen_mesocosmos/foto_aci.jpg)   
+ Figura 1. Diagrama conceptual de las reacciones y química de las especies del sistema carbonato marino (flechas negras). El intercambio en respuesta al incremento atmosférico de CO2, resultando en acidificación del océano (flechas rojas) (Law et al., 2017). Donde la magnitud del intercambio y desbalance de las distintas especies del sistema carbonato pueden aumentar según las proyecciones al 2100 (Ciais et al., 2014). Por otro lado, gran parte del CO2 sedimenta como carbono inorgánico particulado, formando CaCO3 y carbono orgánico, quedando biodisponible por medio de procesos oceanográficos como circulación profunda y surgencia. Por lo tanto, gran parte del CO2 queda en el fondo marino o disuelto en la columna de agua. Sin embargo, la OA puede afectar la fisiología de distintos organismos por la alteración del balance acido-base en respuesta al cambio en la [H+] (Pörtner 2002; Kroeker et al. 2013).     
+
+   
+
+  
+Por otro lado, los efectos de la OA son variados, evidenciándose cambios y alteraciones químicas del océano e influenciando componentes bióticas y procesos abióticos en los distintos ecosistemas marinos (Orr et al. 2005; Fabry 2008). Donde el incremento del CO2aq, HCO3– y el decrecimiento del ion CO32- puede afectar, positiva o negativamente a organismos fotosintetizadores y calcificadores, a nivel especie específico y en escalas macro y micro espaciales (Raven et al., 2005; Roleda & Hurd 2012; Law et al., 2017; Hall-Spencer & Harvey 2019). 
+
+
+# Materiales y métodos
+
+### Modelo de estudio
+
+*Perumytilus* *purpuratus* (Lamarck 1819), conocido comúnmente como chorito maico (Chile) o choro (Perú) (Oyarzún et al. 2010), es una especie común que habita en la franja intermareal rocosa de las costas expuestas al oleaje (Valdivia & Thiel 2006). Esta especie se distribuye desde el Ecuador hasta el Estrecho de Magallanes en el Océano Pacífico, continuando por la costa atlántica argentina hasta Santa Cruz (Osorio & Bahamonde 1968). Perumytilus purpuratus es una especie que forma densas matrices tridimensionales en la franja media del intermareal siendo el competidor dominante del sustrato primario en la zona central rocosa de Chile (Alvarado & Castilla 1996; Guiñez 1996). Además, esta matriz tridimensional lo convierte en un importante ingeniero de sistemas ecológicos (bioingeniero) dado el incremento en la riqueza de especies el cual se ha registrado puede comprender de hasta 92 taxones de invertebrados distintos (Prado & Castilla 2006). Esta especie es de tamaño generalmente pequeño y la talla máxima controlada es de 41 mm (Osorio 2002). 
+
+### Recolección de muestras y sitios de estudio
+
+Los individuos se recolectaron en tres zonas distintas ubicadas a lo largo de Chile; zona centro (Quintay), Norte (Talcaruca) y Sur (Chiloé) desde plataformas rocosas. Paro los experimentos se utilizaron un total de 144 individuos por zona, por lo que se colectaron aproximadamente entre 150 y 200 ejemplares entre 8 y 17 mm de longitud total y los restantes 128 individuos, fueron distribuidos en los distintos tratamientos (ver abajo). Una vez colectadas las muestras, fueron transportadas al laboratorio de Bioingeniería de la Universidad Adolfo Ibáñez donde fueron aclimatados en acuarios de 12 litros con aireación constante y alimentados artificial.
+
+### Experimento en laboratorio
+
+Una vez aclimatados los individuos (14 días), aleatoriamente se formaron 32 grupos de 4 individuos cuyos rangos de tamaño corporal estuvieran adecuadamente representados a través de los tratamientos experimentales y zonas. Los grupos de 4 individuos de tamaño variable fueron puestos en acuarios de 9 litros en 2 grupos separados por una malla en el centro que permitía la circulación del agua dentro del acuario. Esto nos dio un total de 16 acuarios, los que fueron divididos en 4 grupos, un grupo para cada combinación de tratamientos, combinando temperatura y acidificación cuyos niveles nominales fueron 10°C y 15°C en el caso de la temperatura y niveles de pH ~8,0 y ~7,6. Las temperaturas fueron reguladas poniendo los 8 acuarios de ~10°C en un baño termorregulado, enfriado por un Chiller (BOYU®) y otros 8 acuarios a ~15°C en otro baño termoregulado similar.
+
+### Mantenimiento de la presión parcial de CO2 (pCO2)
+
+ Para obtener los niveles de pH deseados, se utilizó una “técnica de aireación” suministrada a los acuarios descrita en Torres et al. (2013). Lo cual consiste en pasar aire comprimido por un filtro de columna de cal sodada, cuyo flujo pasa por un frasco de vidrio lleno de bolas de cristal que permiten una mezcla adecuada con el CO2 puro que también es pasado por este frasco. Los niveles de CO2 puro fueron ajustados mediante un equipo llamado “Controlador de flujos”. Luego, el flujo de salida de estos gases premezclados (CO2 + aire), se ajustó mediante una válvula de regulación de aire (Gattuso et al. 2010). El flujo resultante fue inyectado en el agua de mar de los acuarios a través de una manguera (diámetro interno de 6.35 mm) conectada a una piedra difusora (74 mm x 37 mm x 37 mm) que se sumergió en los estanques primarios (Waller et al. 2017). 
+ 
+### Medición del sistema de los carbonatos
+
+El agua utilizada en los distintos experimentos fue extraída desde la localidad de Quintay y filtrada, por lo que la salinidad fue la misma que se encuentra en el sitio de muestreo. En el caso de las otras zonas los parámetros del agua identificados se utilizaron para normalizar la química del agua de acuerdo a las zonas de muestro. El pH fue medido 3 veces a la semana tomando 2 muestras de agua por acuario. El método de medición fue potenciométrico, que se realiza a 25°C, utilizando un pH meter modelo 913, marca Ωmetrohm. La Alcalinidad Total (AT) fue medida una vez a la semana mediante el método de Haraldsson et al. (1997) y la T° junto a la salinidad 3 veces a la semana mediante un salinómetro modelo (SALT 6 + Oakton). Con los datos de AT, pH, PSU y T°, se calculó el estado de saturación de aragonita y calcita mediante el programa CO2SYS (Lewis & Wallace 1998).
+
+### Medición de respuestas biológicas morfométricas y gravimétricas
+
+### Estimación de pesos
+
+El peso total fue determinado en los mismos periodos de tiempo que duraron los experimentos, mientras que el peso de la concha fue registrado solo al final del experimento. El peso seco del tejido blando o biomasa fue medido al final del experimento, secando por 24 horas el tejido de los individuos en un horno a 60°C y posteriormente, pesándolos en una balanza analítica de precisión ± 0.0001 (g). El peso seco libre de cenizas se calculó al final del experimento. Una vez medida la masa blanda, las muestras fueron mufladas a 450°C por 4 horas, posteriormente, las muestras se dejaron enfriar a temperatura ambiente y pesadas en la balanza analítica. Para determinar el grosor de las valvas, se escogió la valva izquierda de cada individuo y mediante un pie de metro, se realizaros cinco mediciones del espesor de la valva a lo largo del margen de crecimiento.
+
+### Mediciones de propiedades biomecánicas
+
+Se realizaron ensayos de resistencia de las valvas izquierdas en los individuos sometidos a los distintos tratamientos en el laboratorio de biomateriales en la Universidad de Santiago de Chile (USACH). Para esto se tomaron todos los individuos dentro de los distintos tratamientos. Las valvas de los individuos se secaron a temperatura ambiente y fueron separadas en dos grupos, el primero para el análisis de la estructura del material ante la compresión (Abarca 2018). 
+Para el análisis de resistencia estructural o también llamados ensayos de Flexión-compresión (Abarca 2018), este ensayo consta de presionar las valvas mediante un punzón hasta el punto de quiebre de estas. Este tipo de ensayo es uno de los ensayos mecánicos más clásicos para obtener propiedades mecánicas de los materiales. Este ensayo se realizó a una velocidad constante de 0,1mm/min en un texturizador universal Instrom modelo 3342 que expresa la carga en Newton (N), extensión (mm) y el módulo elástico en Mega Pascales (MPa). La carga está definida como la fuerza aplicada (N) mediante el punzón sobre la valva, la extensión (mm) como el avance que tiene el punzón sobre la valva hasta el momento de la fractura y el módulo elástico (MPa) está definido como la rigidez del material. 
+
+### Análisis estadísticos
+
+Para los análisis y gráficos se utilizó el programa RStudio. Además, se estimó la contribución de las diferentes variables, con el fin de reducir la dimensionalidad y poder determinar el uso de las variables adecuadas para los análisis estadísticos. Se realizaron modelos lineales de 2 vías para evaluar si la temperatura, los niveles de pH o la interacción entre los factores afectaron las distintas respuestas biológicas (i.e., tasa de crecimiento, tasa de calcificación, tasa de disolución y la tasa de cambio en el peso total) de los individuos. Además, La elección del modelo estadístico se realizó a partir del criterio AIC, el cual es una medida de calidad para la elección de un modelo estadístico, para un conjunto de datos determinados. A menor valor AIC, existe una mejor bondad en el ajuste dos los datos y su complejidad
+
+# Resultados
+
+### Reducción de la variabilidad por zona y tratamiento
+
+La reducción del total de 24 variables cuantificadas en este trabajo nos llevó a la selección de 16 variables distintas. Donde se evaluó el porcentaje de la variación explicada en las distintas dimensiones evaluadas (10). Esta reducción se realizo con el fin de identificar las dos variables que contribuyen en un mayor porcentaje a la variación explicada (Tabla 1). Las zonas con mayor variación de porcentaje explicado son Talcaruca y Chiloé con relación a la dimensión 1 y 2. No obstante se encuentran variaciones en cada tratamiento para las tres zonas o localidades. Por otro lado, las variables identificadas evidencian que cada una de estas puede influir de manera diferencial en los tratamientos de pH y temperatura.
+
+### Variables seleccionadas
+
+Se seleccionaron 10 variables, pero se graficaron 8, el resto de las variables corresponden a variación abiótica, ocurrida dentro de los experimentos de mesocosmos. Los distintos gráficos confirman la utilización de las variables determinadas en la (Tabla1), evidenciándose grandes variaciones entre zonas para el caso de variables biomecánicas (extensión y carga máxima) y alométricas (peso libre de ceniza y peso de la masa blanda). Por otra parte, se evidencian variaciones intrazonas, lo cual depende de la temperatura y el pH (saturación aragonita y calcita, peso total, presión parcial de CO2 (Figura 1).
+
+
+Tabla 1. Elección de las variables que contribuyen mayoritariamente a la variación explicada, según localidad y tratamiento. 
+
+![](C:/Users/jazap/Documents/R/resumen_mesocosmos/foto_tabla.png)
+
+![](C:/Users/jazap/Documents/R/resumen_mesocosmos/placa.png)
+
+Figura.2. Gráficos de barras de las distintas variables utilizadas en los análisis estadísticos. Evidenciado diferencias en las distintas variables por localidad (Quintay, Chiloé y Talcaruca) y tratamiento (10°C/1500 ppm ; 10°C/500 ppm ; 15°C/1500 ppm y 15°C/500ppm)
+
+
+### Modelos estadísticos
+
+Se evaluaron 18 modelos lineales con interacción (aditiva y multiplicativa) (Tabla 4) para evaluar el efecto de las distintas variables seleccionadas. Sin embargo, las variables utilizadas es el desarrollo de los modelos fueron las que presentaron una mayor contribución al porcentaje de la variación explicada.
+Los modelos que presentaron una mejor bondad de ajuste para el caso de la localidad de Quintay fueron el 5 y 6. Mientras que en el caso de Talcaruca los modelos con mejor ajuste fueron el 3 y 4 al igual que en la localidad de Chiloé.                                                                                                                                                                                                                                                                                           
+ 
+
+
+```{r pressure, echo=FALSE}
+tabla_1 <- unite(tabla, tratamiento,c(2:3), sep = ";", remove = T) %>% na.omit(mesocosmos) %>% 
+ select(Localidad,tratamiento, Peso_libre_ceniza, ph.Promedio..25Â.C., Î.calcita, Peso_seco_concha) %>% filter(Localidad == "Quintay")
+
+Quintay_1 <- lm(Peso_libre_ceniza~ph.Promedio..25Â.C.+tratamiento, data=tabla_1)
+libre_ce_1 <- glance(Quintay_1)
+
+Quintay_2 <- lm(Peso_libre_ceniza~ph.Promedio..25Â.C.*tratamiento, data=tabla_1)
+libre_ce_2 <- glance(Quintay_2)
+
+Quintay_3 <- lm(Î.calcita~ph.Promedio..25Â.C.+tratamiento, data=tabla_1)
+calcita_1 <- glance(Quintay_3)
+
+Quintay_4 <- lm(Î.calcita~ph.Promedio..25Â.C.*tratamiento, data=tabla_1)
+calcita_2 <- glance(Quintay_4)
+
+Quintay_5 <- lm(Peso_seco_concha~ph.Promedio..25Â.C.+tratamiento, data=tabla_1)
+peso_sec_1 <- glance(Quintay_5)
+
+Quintay_6 <- lm(Peso_seco_concha~ph.Promedio..25Â.C.*tratamiento, data=tabla_1)
+peso_sec_2 <- glance(Quintay_6)
+
+
+AIC_Quintay <- rbind(libre_ce_1, libre_ce_2, calcita_1, calcita_2, peso_sec_1, peso_sec_2) %>% select(AIC)
+
+kable(AIC_Quintay, digits = 4, caption = "Valores del criterio AIC en orden correlativo (1-6) QUINTAY")
+####
+tabla_2 <- unite(tabla, tratamiento,c(2:3), sep = ";", remove = T) %>% na.omit(mesocosmos) %>% 
+  select(Localidad,tratamiento, Peso_total, Peso_libre_ceniza, Î.aragonita, Peso_seco_concha, Pseco_mb) %>% filter(Localidad == "Talcaruca") 
+###
+Talca_1 <- lm(Peso_libre_ceniza~Peso_total+tratamiento, data=tabla_2)
+libretal_ce_1 <- glance(Talca_1)
+
+Talca_2 <- lm(Peso_libre_ceniza~Peso_total*tratamiento, data=tabla_2)
+libretal_ce_2 <- glance(Talca_2)
+
+Talca_3 <- lm(Î.aragonita~Peso_total+tratamiento, data=tabla_2)
+aragotal_1 <- glance(Talca_3)
+
+Talca_4 <- lm(Î.aragonita~Peso_total*tratamiento, data=tabla_2)
+aragotal_2 <- glance(Talca_4)
+
+Talca_5 <- lm(Peso_seco_concha~Peso_total+tratamiento, data=tabla_2)
+peso_sectal_1 <- glance(Talca_5)
+
+Talca_6 <- lm(Peso_seco_concha~Peso_total*tratamiento, data=tabla_2)
+peso_sectal_2 <- glance(Talca_6)
+
+AIC_Talca <- rbind(libretal_ce_1, libretal_ce_2, aragotal_1, aragotal_2, peso_sectal_1, peso_sectal_2) %>% select(AIC)
+
+kable(AIC_Talca, digits = 4, caption = "Valores del criterio AIC en orden correlativo (1-6) TALCARUCA") 
+
+#######
+tabla_3 <- unite(tabla, tratamiento,c(2:3), sep = ";", remove = T) %>% na.omit(mesocosmos) %>% 
+  select(Localidad,tratamiento, Peso_total, Peso_libre_ceniza, Î.aragonita, pCO2..Âµatm., Pseco_mb, carga_max) %>% filter(Localidad == "ChiloÃ©") 
+######
+
+Chilo_1 <- lm(Peso_libre_ceniza~Peso_total+tratamiento, data=tabla_3)
+librechi_ce_1 <- glance(Chilo_1)
+
+Chilo_2 <- lm(Peso_libre_ceniza~Peso_total*tratamiento, data=tabla_3)
+librechi_ce_2 <- glance(Chilo_2)
+
+Chilo_3 <- lm(Î.aragonita~Peso_total+tratamiento, data=tabla_3)
+aragochi_1 <- glance(Chilo_3)
+
+Chilo_4 <- lm(Î.aragonita~Peso_total*tratamiento, data=tabla_3)
+aragochi_2 <- glance(Chilo_4)
+
+Chilo_5 <- lm(Pseco_mb~Peso_total+tratamiento, data=tabla_3)
+peso_mbchi_1 <- glance(Chilo_5)
+
+Chilo_6 <- lm(Pseco_mb~Peso_total*tratamiento, data=tabla_3)
+peso_mbchi_2 <- glance(Chilo_6)
+
+AIC_Chi <- rbind(librechi_ce_1, librechi_ce_2, aragochi_1, aragochi_2, peso_mbchi_1, peso_mbchi_2) %>% select(AIC)
+
+kable(AIC_Chi, digits = 4, caption = "Valores del criterio AIC en orden correlativo (1-6) CHILOE")
+
+```
+
+
+
+
+
+
+![](C:/Users/jazap/Documents/R/resumen_mesocosmos/modelos.png)
+
+Tabla 4. Modelos lineales aditivos y multiplicativos utilizados para evaluar el criterio de AIC en las distintas localidades con las variables que presentaron una mayor contribución al porcentaje de variación explicada.
+
+
+# Discusión y conclusión
+
+La acidificación puede afectar de manera diferencial las distintas variables alométricas. Además de evidenciar efectos diferenciales en las distintas zonas, provocando efectos no solo a nivel latitudinal (Talcaruca, Quintay, Chiloé), también a nivel de tratamientos (en la misma zona). Sin embargo, los análisis demostraron una correspondencia entre las variables con mayor influencia y su utilización en los distintos modelos. Lo cual fue corroborado con el criterio AIC. Por lo tanto, se pudo estimar que variables podrían estar influyendo de manera mas intensa que otras. 
+No obstante, no hay que olvidar que la acidificación es un proceso , donde efectos combinados del aumento de temperatura y pCO2 pueden disminuir significativamente las tasas de germinación de invertebrados marinos. Resultando en efectos indirectos, facilitando la presencia de especies oportunistas que monopolizan el sustrato, no permitiendo el asentamiento de especies perennes que dominaban el sustrato anteriormente (Connell et al., 2010). Por otro lado, el dinamismo espacial y temporal de los procesos bióticos y abióticos en sistemas costeros.  Inflaría constantemente, ya que el pH es una función de la temperatura, salinidad, presión, alcalinidad y CO2 que están fuertemente influenciados por factores geológicos, físicos, biológicos (Law et al., 2017). 
+
+# Bibliografia
+
+Abarca. (2018). Estudio estructural sobre las valvas de ostiones Argopecten purpuratus sometidas a cambios climáticos (Tesis de pregrado para ingeniería civil en mecánica). Usach, Santiago, Chile.
+
+Connell, S. D., & Russell, B. D. (2010). The direct effects of increasing CO2 and temperature on non-calcifying organisms: increasing the potential for phase shifts in kelp forests. Proceedings of the Royal Society B: Biological Sciences, 277(1686), 1409-1415.
+
+Crutzen, P. J. (2006). The “anthropocene”. In Earth system science in the anthropocene (pp. 13-18). Springer, Berlin, Heidelberg
+
+Ciais, P., Sabine, C., Bala, G., Bopp, L., Brovkin, V., Canadell, J., ... & Jones, C. (2014). Carbon and other biogeochemical cycles. In Climate change 2013: the physical science basis. Contribution of Working Group I to the Fifth Assessment Report of the Intergovernmental Panel on Climate Change (pp. 465-570). Cambridge University Press.
+
+Law, C. S., Bell, J. J., Bostock, H. C., Cornwall, C. E., Cummings, V. J., Currie, K., ... & Lamare, M. (2018). Ocean acidification in New Zealand waters: trends and impacts. New Zealand Journal of Marine and Freshwater Research, 52(2), 155-195.
+
+Hall-Spencer, J. M., & Harvey, B. P. (2019). Ocean acidification impacts on coastal ecosystem services due to habitat degradation. Emerging Topics in Life Sciences, 3(2), 197-206.
+
+Raven, J., Caldeira, K., Elderfield, H., Hoegh-Guldberg, O., Liss, P., Riebesell, U., ... & Watson, A. (2005). Ocean acidification due to increasing atmospheric carbon dioxide. The Royal Society.
+
+Schlenger, A. J., Beas-Luna, R., & Ambrose, R. F. (2020). Forecasting ocean acidification impacts on kelp forest ecosystems. bioRxiv.
+
+Hurd, C. L., Beardall, J., Comeau, S., Cornwall, C. E., Havenhand, J. N., Munday, P. L., ... & McGraw, C. M. (2020). Ocean acidification as a multiple driver: how interactions between changing seawater carbonate parameters affect marine life. Marine and Freshwater Research, 71(3), 263-274.
+
+Guinotte, J. M., & Fabry, V. J. (2008). Ocean acidification and its potential effects on marine ecosystems. Annals of the New York Academy of Sciences, 1134(1), 320-342.
+
+Kroeker, K. J., Kordas, R. L., Crim, R., Hendriks, I. E., Ramajo, L., Singh, G. S., ... & Gattuso, J. P. (2013). Impacts of ocean acidification on marine organisms: quantifying sensitivities and interaction with warming. Global change biology, 19(6), 1884-1896.
+
+Orr, J. C., Fabry, V. J., Aumont, O., Bopp, L., Doney, S. C., Feely, R. A., ... & Key, R. M. (2005). Anthropogenic ocean acidification over the twenty-first century and its impact on calcifying organisms. Nature, 437(7059), 681-686.
+
+Roleda, M. Y., & Hurd, C. L. (2012). Seaweed responses to ocean acidification. In Seaweed biology (pp. 407-431). Springer, Berlin, Heidelberg.
+
+Fabry, V. J. (2008). Marine calcifiers in a high-CO2 ocean. Science.
+
+Oyarzún, Toro, Jaramillo, Guiñez, Briones & Astorga. (2010). Análisis comparativo del ciclo gametogénico de Perumytilus purpuratus (Bivalvia: Mytilidae), en las localidades de Taltal y Huasco, norte de Chile. Revista de Biología Marina y Oceanografía, 45(1), 43-58
+
+Valdivia & Thiel. (2006). Effects of point-source nutrient addition and mussel removal on epibiotic assemblages in Perumytilus purpuratus beds. Journal of Sea Research, 56, 271–283.
+
+Osorio & Bahamonde. (1968). Moluscos bivalvos en las pesquerías chilenas. Biología Pesquera 3: 69-128.
+Alvarado & Castilla. (1996). Tridimensional matrices of Perumytilus purpuratus on intertidal platforms with varying wave forces in central Chile. Marine Ecology Progress Series, 133: 135-141.
+
+Guiñez. (1996). Dinámica poblacional del chorito maico, Perumytilus purpuratus (Lamarck, 1819) (Bivalvia: Mytilidae), en gradientes de exposición al oleaje. Tesis de Doctorado, Departamento de Ecología, Pontificia Universidad Católica de Chile, Santiago, 213 pp.
+
+Osorio. (2002). Moluscos Marinos en Chile, Especies de importancia comercial. Pontifica Universidad Católica, 1, 1-191.
+
+Prado & Castilla. (2006). The bioengineer Perumytilus purpuratus (Mollusca: Bivalvia) in central Chile: biodiversity, habitat structural complexity and environmental heterogeneity. Journal of the Marine Biological, 86, 417-421.
+
+Torres, Manrriquez, Duarte, Navarro, Lagos, Vargas & Lardies. (2013). Evaluation of a semi-automatic system for long-term seawater carbonate chemistry manipulation. Revista Chilena de Historia Natural, 86, 443-451.
+
+Gattuso, Magnan, Billé, Cheung, Howes, Joos, Allemand, Bopp, Cooley, Eakin, Hoegh-Guldberg, Kelly, Pörtner, Rogers, Baxter, Laffoley, Osborn, Rankovic, Rochette, Sumaila, Treyer & Turley. (2015).
+Contrasting futures for ocean and society from different anthropgenic CO2 emissions scenarios. OCEANOGRAPHY, REVIEW SUMMARY, 1-12.
+
+WALLER, BARTSCH, FREDRICKS, BARTSCH, SCHLEIS & LEE. (2017). EFFECTS OF CARBON DIOXIDE ON JUVENILES OF THE FRESHWATER MUSSEL (LAMPSILIS SILIQUOIDEA [UNIONIDAE]). Environmental Toxicology and Chemistry, 36, 671–681
+
+Lewis & Wallace. (1998). Program developed for CO2 system calculations. Department of Applied Science Brookhaven National Laboratory Upton, New York.
+
+
+
+
+
+
