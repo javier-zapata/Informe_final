@@ -19,7 +19,6 @@ library(kableExtra)
 library(knitr)
 library(plyr)
 tabla <- read.table("C:/Users/jazap/Desktop/Cambio climatico/Experimentos/Mesocosmos/Analisis preliminares/mesocosmos.txt",header=TRUE,sep="\t", fill = TRUE)
-
 ```
 
 # Introduccion
