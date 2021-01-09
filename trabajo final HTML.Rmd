@@ -1,0 +1,229 @@
+---
+title: Clasificacion de la localidad de procedencia en base a la alometria y biomecánica de las valvas de *Perumytilus* *purpuratus*
+author: "Javier Zapata"
+date: "08-01-2021"
+output: html_document
+---
+``````{r setup, include=F}
+knitr::opts_chunk$set(echo = F, message=F, warning=F, error=F)
+library(broom)
+library(tidyverse)
+library(kableExtra)
+library(knitr)
+library(plyr)
+library(glmnet)
+library(tidyverse)
+library(caret)
+library(broom)
+library(rpart.plot)
+
+morfo <- read.table("C:/Users/jazap/Desktop/Cambio climatico/Experimentos/Mesocosmos/Analisis preliminares/morfo.txt",header=TRUE,sep="\t", fill = TRUE)
+
+morfo_2 <- unite(morfo, tratamiento,c(2:3), sep = ";", remove = T) %>% 
+  select(Largo, Ancho, Alto, Peso_total, Margen_crecimiento, Rigidez, Peso_seco_concha, nano_indentacion, Modulo_elastico, Estres_max, Presion_max)
+
+```
+
+# Introduccion
+
+El incremento en las emisiones de dióxido de carbono (CO2), derivadas por la quema de combustibles fósiles (Caldeira y Wickett 2003) y generada principalmente durante los últimos dos siglos (Saavedra et al. 2017), ha estado produciendo una aceleración del cambio climático (Vargas et al. 2017), alterando los ciclos químicos de carbonatos en el océano global, perturbando el equilibrio geoquímico (Gattuso et al. 2015), y pudiendo afectar los ambientes marinos (Vargas et al. 2017). Una de las mayores evidencias de esto es el fenómeno de la Acidificación de los océanos (OA) y el aumento en las temperaturas del mar que están influenciando el calentamiento global (OW).
+
+En los últimos 250 años aproximadamente, el océano ha absorbido cerca de 1/3 del total de las emisiones de CO2 presentes en la atmosfera (Hernández et al. 2017) y en los últimos 60 años, la concentración de CO2 ha aumentado exponencialmente, iniciando en concentraciones que no superaban las 325 PPM antes de la revolución industrial, hasta llegar a  hoy en día, donde se han sobrepasado las 400 PPM (NOAA 2018). Esto ha hecho que la presión de CO2 (pCO2) en el océano aumente a la misma tasa, generando una disminución en el pH desde los 8,2 a 8,0 unidades (NOAA 2018). Modelaciones del incremento en la acidificación señalan que el pH de los océanos podría seguir descendiendo del alrededor de 8,0 (media actual) hasta 7,6 hacia los años 2100 (Orr et al. 2005).
+
+En condiciones de pH bajo (˃ acidez), y con menos iones de carbonato disponibles en el ambiente, ocurrirán dos procesos igualmente dañinos para las especies calcificadoras. El primero está relacionado a la falta de iones de carbonato en el ambiente, el cual producirá que los individuos de especies que precipitan estructuras calcáreas no se desarrollen como corresponde, pudiendo así llegar a causar la mortalidad de los individuos por no ser viables. Esto es debido a que la construcción de sus valvas de carbonato de calcio dependerá de la concentración de iones carbonato, que disminuye en presencia de iones hidrógeno por formación de bicarbonato (Doney 2006). Un estudio realizado con varias especies de invertebrados, entre ellos equinodermos, bivalvos y corales, demostró que en los estadios larvales disminuyen su tamaño corporal en un 20% a 30%, además de evidenciar anomalías morfológicas, protuberancias y malformaciones en las estructuras calcáreas (Kurihara 2008). A grandes rasgos, este último autor encontró que todos sus resultados sugerían que una pCO2 afectó en la formación del esqueleto larval y la síntesis de la concha en especies calcificadoras (e.i. Erizos, bivalvos y corales). El segundo proceso que se manifiesta en condiciones de bajo pH en el océano, es la descalcificación o disolución de sus estructuras calcáreas. En especies de bivalvos, como Crassostrea gigas (ostra del pacifico) y el mitílido Mytilus edulis, se han registrado grados de descalcificación que van desde el 10% hasta un 25% respectivamente (Gazeau et al. 2007).
+
+Por lo tanto estudiar este fenomeno y sus efectos en organismos costeros que presentan una amplica distribucion en la costa de Chile como es el caso de *Perumytilus purpuratus*, sumada a una alta heterogenidad ambiental de norte a sur. Nos permitiria facilitar su comprension y entendimiento ante lo precesos mencionados anteriormente. En este contexto el objetivo de este trabajo es evidenciar en una primera parte la importancia de las variables alometricas (peso, largo, ancho, etc) y biomecanicas (rigidez, esfuerzo, deformacion, etc) (Abarca 2018) y en una segunda parte si su efecto o importancia pueden estar moduladas por respuestas diferenciales a nivel de localidades contrastantes.  
+ 
+    
+# Materiales y métodos
+
+
+### Recolección de muestras y sitios de estudio
+
+Los individuos se recolectaron en tres zonas distintas ubicadas a lo largo de Chile; zona centro (Quintay), Norte (Talcaruca) y Sur (Chiloé) desde plataformas rocosas. Paro los experimentos se utilizaron un total de 144 individuos por zona, por lo que se colectaron aproximadamente entre 150 y 200 ejemplares entre 8 y 17 mm de longitud total y los restantes 128 individuos, fueron distribuidos en los distintos tratamientos (ver abajo). Una vez colectadas las muestras, fueron transportadas al laboratorio de Bioingeniería de la Universidad Adolfo Ibáñez donde fueron aclimatados en acuarios de 12 litros con aireación constante y alimentados artificial.
+
+### Experimento en laboratorio
+
+Una vez aclimatados los individuos (14 días), aleatoriamente se formaron 32 grupos de 4 individuos cuyos rangos de tamaño corporal estuvieran adecuadamente representados a través de los tratamientos experimentales y zonas. Los grupos de 4 individuos de tamaño variable fueron puestos en acuarios de 9 litros en 2 grupos separados por una malla en el centro que permitía la circulación del agua dentro del acuario. Esto nos dio un total de 16 acuarios, los que fueron divididos en 4 grupos, un grupo para cada combinación de tratamientos, combinando temperatura y acidificación cuyos niveles nominales fueron 10°C y 15°C en el caso de la temperatura y niveles de pH ~8,0 y ~7,6. Las temperaturas fueron reguladas poniendo los 8 acuarios de ~10°C en un baño termorregulado, enfriado por un Chiller (BOYU®) y otros 8 acuarios a ~15°C en otro baño termoregulado similar.
+
+
+### Medición de respuestas biológicas morfométricas y biomecanicas
+
+### Estimación de pesos
+
+El peso total fue determinado en los mismos periodos de tiempo que duraron los experimentos, mientras que el peso de la concha fue registrado solo al final del experimento. El peso seco del tejido blando o biomasa fue medido al final del experimento, secando por 24 horas el tejido de los individuos en un horno a 60°C y posteriormente, pesándolos en una balanza analítica de precisión ± 0.0001 (g). El peso seco libre de cenizas se calculó al final del experimento. Una vez medida la masa blanda, las muestras fueron mufladas a 450°C por 4 horas, posteriormente, las muestras se dejaron enfriar a temperatura ambiente y pesadas en la balanza analítica. Para determinar el grosor de las valvas, se escogió la valva izquierda de cada individuo y mediante un pie de metro, se realizaros cinco mediciones del espesor de la valva a lo largo del margen de crecimiento.
+
+### Mediciones de propiedades biomecánicas
+
+Se realizaron ensayos de resistencia de las valvas izquierdas en los individuos sometidos a los distintos tratamientos en el laboratorio de biomateriales en la Universidad de Santiago de Chile (USACH). Para esto se tomaron todos los individuos dentro de los distintos tratamientos. Las valvas de los individuos se secaron a temperatura ambiente y fueron separadas en dos grupos, el primero para el análisis de la estructura del material ante la compresión (Abarca 2018). 
+Para el análisis de resistencia estructural o también llamados ensayos de Flexión-compresión (Abarca 2018), este ensayo consta de presionar las valvas mediante un punzón hasta el punto de quiebre de estas. Este tipo de ensayo es uno de los ensayos mecánicos más clásicos para obtener propiedades mecánicas de los materiales. Este ensayo se realizó a una velocidad constante de 0,1mm/min en un texturizador universal Instrom modelo 3342 que expresa la carga en Newton (N), extensión (mm) y el módulo elástico en Mega Pascales (MPa). La carga está definida como la fuerza aplicada (N) mediante el punzón sobre la valva, la extensión (mm) como el avance que tiene el punzón sobre la valva hasta el momento de la fractura y el módulo elástico (MPa) está definido como la rigidez del material. 
+
+### Análisis estadísticos
+
+La matriz de datos morfológicos y biomecanicos fue ordenada y limpiada con el fin de eliminar datos no registrados (*N.A*). Ya que la presencia de *N.A* puede afectar la creación de modelos predictivos de clasificación. Previo a esto se utilizaron regresiones penalizadas con el objetivo de eliminar variables inútiles y así ir reduciendo la dimensionalidad e importancia de las variables, este es un método de análisis de regresión que realiza selección de variables y regularización para mejorar la exactitud e interpretabilidad del modelo estadístico producido por este. Para este trabajo se utilizo un operador de selección y contracción mínima absoluta (Lasso, por sus siglas en ingles) y para el caso de aprendizaje automatico se utilizo la funcion *rpart*. Esta función nos pide una formula para especificar la variable objetivo de la clasificación. La formula que usaremos es tipo ~ ., la cual expresa que intentaremos clasificar usando a todas las demás variables como predictoras. Finalmente se desarrollaron esquemas de árboles de clasificación, donde las proporciones que se especifican (%) nos dan una idea de la precisión de nuestro modelo al hacer predicciones.
+
+
+# Resultados
+
+### Reducción de la variabilidad 
+
+La reduccion de la variabilidad de las variables alometricas y biomecanicas que inicialmente eran 11, se lograron a minimizar a 6 alcanzando un valor minimo del Log de lambda de 0.036 (figura 1). Ademas en la tabla 1 se muestran la variables seleccionadas y sus valores estimados, donde la gran mayoria parece tener efecto sobre la variable respuesta (Largo). La tabla 2 muestra los valores    
+
+```{r, echo = F, message= F, warning= F}
+
+x <- model.matrix(Largo ~., data = morfo_2)
+x <- x[,-1]
+y <- morfo_2$Largo
+
+set.seed(2020)
+lasso <- cv.glmnet(x, y, alpha = 1, nfolds = 10)
+plot(lasso)
+```
+
+Figura 1. Plot del operador de selección y contracción mínima absoluta.   
+
+Tabla 1. variables seleccionadas y sus valores estimados y lambda minimo utilizado.
+```{r, echo = F, message= F, warning= F}
+
+Mejor_Lasso <- glmnet(x, y, alpha = 1, lambda = lasso$lambda.min)
+tidy(Mejor_Lasso)
+
+```
+
+Tabla 2. valor minimo de lambda y valor del RMSE. 
+```{r, echo = F, message= F, warning= F}
+set.seed(2020)
+Index <- createDataPartition(morfo_2$Largo, p = 0.8, list = F)
+Train <- morfo_2[Index, ]
+Test <- morfo_2[-Index, ]
+
+NewX <- model.matrix(Largo ~., data = Test)
+NewX <- NewX[,-1]
+
+NewY <- Test$Largo
+
+
+
+DF <- tibble(Modelo = c("Lasso"),
+             Alpha = c(1), 
+             Lambda = c(Mejor_Lasso$lambda),
+             RMSE = c(caret::RMSE(pred =  predict(Mejor_Lasso, NewX), 
+                                  obs = NewY)))
+DF
+```
+
+
+### Machine learning
+
+En el caso de la tabla 3 el numero uno alcanza el menor valor del hiperparametro de complejidad y el valor mas alto de Accuracy de nuestra base de datos entrenamiento. Esto quiere decir que el 65% de la clasificacion realizada por el metodo de rpart, es correcta. En el caso de la figura 2, la importancia de todas las variables utilizadas en el modelo "rpart" es diferencial en su gran mayoria. Siendo las que tienen un mayor aporte o importancia, el peso total (100%), margen de crecimiento (90%), nanoinndentacion y Peso seco de la concha (80%), mientras que el largo (50%) y el ancho (15%) tuvieron el manor porcentaje de importancia.
+
+Por otra parte si observamos la tabla 4 la prediccion basada en los parametros alometricos y biomecanicos fue diferencial para cada localidad. Sin embargo a simple viste se puede observar hay mayores valores de probabilidad en Chiloe, Talcaruca, Quintay de manera correlativa.
+
+En el caso de nuestro arbol de clasificacion (figura 3) el primer nodo tiene como regla de clasificacion el peso total al igual que los demas, ya que esta fue laa variable que mas aporto en el valor 
+de importancia. El nodo esta coloreado de esa forma por que Talcaruca (36%) y Chiloe (36%) son la categoria que ha predicho el modelo para ese grupo. Si es pero es 
+menor a 0.055 gr. En Chiloe se han agrupado un 72% de los datos, dominados principalmente por Chiloe (50%) y Talcaruca (46%). Si el peso total es menor a 0.023
+Chiloe agrupa un 50% de los datos dominando esa categoria con un 66%, mientras que el menor valor con 1% es Quintay. Si el peso es mayor a 0.023Talcaruca domina esa categoria 
+con un 74%. Finalmente en Quintay el peso no es mayor a 0.055, dominando esa categoria con un 87% de probabilidad, pero con un 28% del total del nodo.
+
+Tabla 3. Valor del hiperparametro de complejidad y Accuracy.
+```{r, echo = F, message= F, warning= F}
+morfo_3 <- unite(morfo, tratamiento,c(2:3), sep = ";", remove = T) %>% 
+  select(Localidad,tratamiento, Largo, Ancho, Alto, Peso_total, Margen_crecimiento, Rigidez, Peso_seco_concha, nano_indentacion, Modulo_elastico, Estres_max, Presion_max)
+
+
+set.seed(2020)
+Index <- createDataPartition(morfo_3$Localidad, list = FALSE, p = 0.5)
+Train <- morfo_3[Index, ]
+Test <- morfo_3[-Index, ]
+
+
+fitControl2 <- trainControl(method = "repeatedcv", number = 10, repeats = 10)
+
+
+Class <- train(Localidad ~ ., data = Train, method = "rpart", trControl = fitControl2)
+Class$results
+
+```
+
+```{r,, echo = F, message= F, warning= F}
+plot(varImp(Class))
+```
+
+Figura 2. Importancia de todas las variables utilizadas en el modelo "rpart". 
+
+Tabla 4. Prediccion basada en los parametros alometricos y biomecanicos.
+```{r, echo = F, message= F, warning= F}
+
+prob <-predict(Class, Test, type = "prob")
+
+
+kable(prob, digits = 2, caption = "Probabilidad de prediccion del modelo por observacion") %>% 
+    kable_styling(bootstrap_options = c("striped", 
+        "hover", "condensed"), full_width = F) %>% 
+    scroll_box(width = "800px", height = "500px")
+
+```
+
+Figura 3. Arbol de clasificacion. 
+
+```{r, echo = F, message= F, warning= F}
+rpart.plot(Class$finalModel)
+```
+
+# Discusión y conclusión
+
+Al parecer los resultados de manera somera representan que ciertas variables alometricas como el peso, presentan mas importancia en definir la localidad de prodecencia y su probabilidad nos da una idea de la precisión de nuestro modelo al hacer predicciones. Sin embargo en la literatura y en el caso de los bivalvos y puntualmente en el caso de *P.purpuratus*, generalmente se ha utilizado el largo de las valvas como un indicador de bienestar (Ramajo et al 2016a; Ramajo et al 2020). Sin embargo y de acuerdo a los resultados observados podrian estar influyendo otras variables que no han sido utilizadas en los analisis estadisticos en los diversos trabajos que sehan realizado y en este caso tienen un 100% de importancia y que en algunos casos el modelo pudo predecir de buena manera. Por lo tanto se hace importante empezar a utilizar el Machine Learning como herramienta que nos permita clasificar y relizar prediccion apartir del lugar de procedencia y sus diferecias alometricas y/o Biomecanicas que pueden exisitir en zonas tan constrastantes.
+
+# Bibliografia
+
+Abarca. (2018). Estudio estructural sobre las valvas de ostiones Argopecten purpuratus sometidas a cambios climáticos (Tesis de pregrado para ingeniería civil en mecánica). Usach, Santiago, Chile.
+
+Connell, S. D., & Russell, B. D. (2010). The direct effects of increasing CO2 and temperature on non-calcifying organisms: increasing the potential for phase shifts in kelp forests. Proceedings of the Royal Society B: Biological Sciences, 277(1686), 1409-1415.
+
+Crutzen, P. J. (2006). The “anthropocene”. In Earth system science in the anthropocene (pp. 13-18). Springer, Berlin, Heidelberg
+
+Ciais, P., Sabine, C., Bala, G., Bopp, L., Brovkin, V., Canadell, J., ... & Jones, C. (2014). Carbon and other biogeochemical cycles. In Climate change 2013: the physical science basis. Contribution of Working Group I to the Fifth Assessment Report of the Intergovernmental Panel on Climate Change (pp. 465-570). Cambridge University Press.
+
+Law, C. S., Bell, J. J., Bostock, H. C., Cornwall, C. E., Cummings, V. J., Currie, K., ... & Lamare, M. (2018). Ocean acidification in New Zealand waters: trends and impacts. New Zealand Journal of Marine and Freshwater Research, 52(2), 155-195.
+
+Hall-Spencer, J. M., & Harvey, B. P. (2019). Ocean acidification impacts on coastal ecosystem services due to habitat degradation. Emerging Topics in Life Sciences, 3(2), 197-206.
+
+Ramajo, L., Osores, S. J., Lagos, N. A., Broitman, B. R., Navarro, J. M., Vargas, C. A., ... & Lardies, M. A. (2020). Estuarine conditions more than pH modulate the physiological flexibility of mussel Perumytilus purpuratus populations. Estuarine, Coastal and Shelf Science, 107098.
+
+Raven, J., Caldeira, K., Elderfield, H., Hoegh-Guldberg, O., Liss, P., Riebesell, U., ... & Watson, A. (2005). Ocean acidification due to increasing atmospheric carbon dioxide. The Royal Society.
+
+Schlenger, A. J., Beas-Luna, R., & Ambrose, R. F. (2020). Forecasting ocean acidification impacts on kelp forest ecosystems. bioRxiv.
+
+Hurd, C. L., Beardall, J., Comeau, S., Cornwall, C. E., Havenhand, J. N., Munday, P. L., ... & McGraw, C. M. (2020). Ocean acidification as a multiple driver: how interactions between changing seawater carbonate parameters affect marine life. Marine and Freshwater Research, 71(3), 263-274.
+
+Guinotte, J. M., & Fabry, V. J. (2008). Ocean acidification and its potential effects on marine ecosystems. Annals of the New York Academy of Sciences, 1134(1), 320-342.
+
+Kroeker, K. J., Kordas, R. L., Crim, R., Hendriks, I. E., Ramajo, L., Singh, G. S., ... & Gattuso, J. P. (2013). Impacts of ocean acidification on marine organisms: quantifying sensitivities and interaction with warming. Global change biology, 19(6), 1884-1896.
+
+Orr, J. C., Fabry, V. J., Aumont, O., Bopp, L., Doney, S. C., Feely, R. A., ... & Key, R. M. (2005). Anthropogenic ocean acidification over the twenty-first century and its impact on calcifying organisms. Nature, 437(7059), 681-686.
+
+Roleda, M. Y., & Hurd, C. L. (2012). Seaweed responses to ocean acidification. In Seaweed biology (pp. 407-431). Springer, Berlin, Heidelberg.
+
+Fabry, V. J. (2008). Marine calcifiers in a high-CO2 ocean. Science.
+
+Oyarzún, Toro, Jaramillo, Guiñez, Briones & Astorga. (2010). Análisis comparativo del ciclo gametogénico de Perumytilus purpuratus (Bivalvia: Mytilidae), en las localidades de Taltal y Huasco, norte de Chile. Revista de Biología Marina y Oceanografía, 45(1), 43-58
+
+Valdivia & Thiel. (2006). Effects of point-source nutrient addition and mussel removal on epibiotic assemblages in Perumytilus purpuratus beds. Journal of Sea Research, 56, 271–283.
+
+Osorio & Bahamonde. (1968). Moluscos bivalvos en las pesquerías chilenas. Biología Pesquera 3: 69-128.
+Alvarado & Castilla. (1996). Tridimensional matrices of Perumytilus purpuratus on intertidal platforms with varying wave forces in central Chile. Marine Ecology Progress Series, 133: 135-141.
+
+Guiñez. (1996). Dinámica poblacional del chorito maico, Perumytilus purpuratus (Lamarck, 1819) (Bivalvia: Mytilidae), en gradientes de exposición al oleaje. Tesis de Doctorado, Departamento de Ecología, Pontificia Universidad Católica de Chile, Santiago, 213 pp.
+
+Osorio. (2002). Moluscos Marinos en Chile, Especies de importancia comercial. Pontifica Universidad Católica, 1, 1-191.
+
+Prado & Castilla. (2006). The bioengineer Perumytilus purpuratus (Mollusca: Bivalvia) in central Chile: biodiversity, habitat structural complexity and environmental heterogeneity. Journal of the Marine Biological, 86, 417-421.
+
+Torres, Manrriquez, Duarte, Navarro, Lagos, Vargas & Lardies. (2013). Evaluation of a semi-automatic system for long-term seawater carbonate chemistry manipulation. Revista Chilena de Historia Natural, 86, 443-451.
+
+Gattuso, Magnan, Billé, Cheung, Howes, Joos, Allemand, Bopp, Cooley, Eakin, Hoegh-Guldberg, Kelly, Pörtner, Rogers, Baxter, Laffoley, Osborn, Rankovic, Rochette, Sumaila, Treyer & Turley. (2015).
+Contrasting futures for ocean and society from different anthropgenic CO2 emissions scenarios. OCEANOGRAPHY, REVIEW SUMMARY, 1-12.
+
+WALLER, BARTSCH, FREDRICKS, BARTSCH, SCHLEIS & LEE. (2017). EFFECTS OF CARBON DIOXIDE ON JUVENILES OF THE FRESHWATER MUSSEL (LAMPSILIS SILIQUOIDEA [UNIONIDAE]). Environmental Toxicology and Chemistry, 36, 671–681
+
+Lewis & Wallace. (1998). Program developed for CO2 system calculations. Department of Applied Science Brookhaven National Laboratory Upton, New York.
